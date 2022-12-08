@@ -1,0 +1,106 @@
+# Problem B. 苹果分组
+丰收的季节到了，采摘下来的苹果需要按重量分组，分组的要求是每组的苹果重量相对均衡，但每组最多包含两个苹果，为了在尽量短的时间内分完所有苹果，希望分组的数目越少越好。
+
+## 输入
+输入共三行。
+第一行为苹果的数目n(1≤n≤200000)。
+第二行为每组苹果的最大重量W(80≤W≤200)。
+第三行为每个苹果的重量wi(5≤wi≤W)。
+
+## 输出
+输出共一行。
+即最少的分组数目。
+
+## 样例
+### 标准输入
+```
+9
+100
+90 
+20 
+20 
+30 
+50 
+60 
+70 
+80 
+90
+```
+### 标准输出
+```
+6
+```
+
+### 标准输入
+```
+5
+120
+15
+20
+30
+40
+50
+```
+### 标准输出
+```
+3
+```
+
+## 提示
+```
+样例一:
+第一组:20 80
+第二组:20 70
+第三组:30 60
+第四组:50 50
+第五组:90
+第六组:90
+
+样例二:
+第一组:15 20
+第二组:30 40
+第三组:50
+```
+
+# Solution 
+```java
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Scanner;
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        int n = in.nextInt();
+        int max = in.nextInt();
+        ArrayList<Integer> weightList = new ArrayList<Integer>();
+
+        for(int i=0;i<n;i++) {
+            weightList.add(in.nextInt());
+        }
+        weightList.sort(Comparator.naturalOrder());
+        System.out.print(CollectApple(weightList,max));
+
+    }
+    static public int CollectApple(ArrayList<Integer> lists,int maxWeight){
+        int g = 0;
+        if(lists.size()<2){
+            g = 1;
+        }
+        while(lists.size()>=2) {
+            int sum = lists.get(0) + lists.get(lists.size() - 1);
+            if (sum <= maxWeight) {
+                g++;
+                lists.remove(0);
+                lists.remove(lists.size()-1);
+            }else{
+                g++;
+                lists.remove(lists.size() - 1);
+            }
+        }
+        g+=lists.size();
+        return g;
+    }
+}
+```
